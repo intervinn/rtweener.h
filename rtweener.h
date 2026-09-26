@@ -32,8 +32,8 @@ typedef struct {
 } Tweener;
 
 Tween MakeTween(float *out, float start, float destination, float duration, float (*GetTime)(), Easer Ease);
-
-void PoolTween(Tweener *tr, Tween t);
+void AddTweenVec2(Tweener *tr, Vector2 *out, Vector2 start, Vector2 destination, float duration, float (*GetTime)(), Easer Ease);
+void AddTween(Tweener *tr, Tween t);
 void UpdateTweens(Tweener *tr);
 void NothingFinish(Tween t);
 
@@ -41,6 +41,7 @@ void NothingFinish(Tween t);
 }
 #endif
 
+#define TWEENER_IMPLEMENTATION
 #ifdef TWEENER_IMPLEMENTATION
 
 Tween MakeTween(float *out, float start, float destination, float duration, float (*GetTime)(), Easer Ease) {
@@ -91,6 +92,14 @@ void UpdateTweens(Tweener *tr) {
             tr->raw[i].duration
         );
     }
+}
+
+void AddTweenVec2(Tweener *tr, Vector2 *out, Vector2 start, Vector2 destination, float duration, float (*GetTime)(), Easer Ease) {
+    Tween a = MakeTween(&(out->x), start.x, destination.x, duration, GetTime, Ease);
+    Tween b = MakeTween(&(out->y), start.y, destination.y, duration, GetTime, Ease);
+
+    AddTween(tr, a);
+    AddTween(tr, b);
 }
 
 #endif  

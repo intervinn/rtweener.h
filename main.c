@@ -19,17 +19,16 @@ int main() {
         .raw = raw
     };
 
-    Rectangle recs[RECS] = {
-        {100,100,50,50},
-        {0,0,50,50},
-        {25, 25, 50, 50},
-        {0, 100, 50, 50},
-        {10, 25, 50, 50}
+    Vector2 recs[RECS] = {
+        {100, 100},
+        {200, 200},
+         {300, 0},
+         {0, 300},
+         {500, 500}
     };
 
     for (int i = 0; i < RECS; i++) {
-        AddTween(&t, MakeTween(&(recs[i].x), recs[i].x, 0, 5, GetFrameTime, EaseCubicIn));
-        AddTween(&t, MakeTween(&(recs[i].y), recs[i].y, 0, 5, GetFrameTime, EaseCubicIn));
+        AddTweenVec2(&t, &(recs[i]), (Vector2){recs[i].x, recs[i].y}, (Vector2){0, 0}, 3, GetFrameTime, EaseCubicOut);
     }
 
     while (!WindowShouldClose()) {
@@ -38,7 +37,7 @@ int main() {
         BeginDrawing();
         ClearBackground(RAYWHITE);
         for (int i = 0; i < RECS; i++) {
-            DrawRectangleRec(recs[i], RED);
+            DrawRectangleRec((Rectangle){recs[i].x, recs[i].y, 50, 50}, RED);
         }
         EndDrawing();
     }
